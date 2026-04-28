@@ -1,0 +1,16 @@
+{
+  "name": "stripe-mrr-dashboard",
+  "version": "1.0.0",
+  "description": "Weekly Stripe MRR dashboard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "stripe": "^14.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
