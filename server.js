@@ -548,6 +548,9 @@ app.get('/', (req, res) => {
       return 'rgba(246,224,94,0.5)';
     }
 
+    function thClick(el) { setSort(el.dataset.key); }
+    function presetClick(el) { loadRange(el.dataset.preset); }
+
     function renderAllTime() {
       if(!funnelData) return;
       var d=funnelData;
@@ -575,7 +578,7 @@ app.get('/', (req, res) => {
       var thCells=COLS.map(function(col){
         var active=col.key===sortKey;
         var arrow=active?(sortDir===-1?' ▼':' ▲'):'';
-        return '<th class="'+(active?'sorted':'')+'" onclick="setSort(\''+col.key+'\')">'+col.label+arrow+'</th>';
+        return '<th class="'+(active?'sorted':'')+'" data-key="'+col.key+'" onclick="thClick(this)">'+col.label+arrow+'</th>';
       }).join('');
 
       var tableRows=sorted.map(function(c){
@@ -610,11 +613,11 @@ app.get('/', (req, res) => {
         '<div class="section">' +
           '<div class="section-title">Activity by Date Range</div>' +
           '<div class="presets">' +
-            '<button class="preset-btn" data-preset="this-week"  onclick="loadRange(\'this-week\')">This Week</button>' +
-            '<button class="preset-btn" data-preset="last-week"  onclick="loadRange(\'last-week\')">Last Week</button>' +
-            '<button class="preset-btn" data-preset="this-month" onclick="loadRange(\'this-month\')">This Month</button>' +
-            '<button class="preset-btn" data-preset="last-month" onclick="loadRange(\'last-month\')">Last Month</button>' +
-            '<button class="preset-btn" data-preset="last-30"    onclick="loadRange(\'last-30\')">Last 30 Days</button>' +
+            '<button class="preset-btn" data-preset="this-week"  onclick="presetClick(this)">This Week</button>' +
+            '<button class="preset-btn" data-preset="last-week"  onclick="presetClick(this)">Last Week</button>' +
+            '<button class="preset-btn" data-preset="this-month" onclick="presetClick(this)">This Month</button>' +
+            '<button class="preset-btn" data-preset="last-month" onclick="presetClick(this)">Last Month</button>' +
+            '<button class="preset-btn" data-preset="last-30"    onclick="presetClick(this)">Last 30 Days</button>' +
             '<button class="preset-btn" data-preset="custom"     onclick="toggleCustom()">Custom</button>' +
           '</div>' +
           '<div class="custom-dates" id="custom-dates">' +
