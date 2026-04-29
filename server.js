@@ -10,11 +10,11 @@ const SHEET_ID = '1C7L4NklNeks72uBtXrW4vWYUHak3yEY5QmaW0llKztM';
 
 const LEAD_SHEETS = [
   { name: 'Ads (V4)',      sheet: 'V4 Appt Booked' },
+  { name: 'Ads (V2)',      sheet: 'V2 Appt Booked' },
   { name: '197CA',         sheet: '197CA Book'      },
   { name: 'SMS',           sheet: 'SMS'             },
   { name: 'Cold Calling',  sheet: 'Cold Calling'    },
   { name: "Uzair CC's",    sheet: "Uzair CC's"      },
-  { name: 'Organic',       sheet: 'Organic'         },
 ];
 
 function normalizeToMonthly(amount, interval, intervalCount) {
