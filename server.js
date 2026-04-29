@@ -9,12 +9,14 @@ const WEEKLY_GOAL_CAD = 1000;
 const SHEET_ID = '1C7L4NklNeks72uBtXrW4vWYUHak3yEY5QmaW0llKztM';
 
 const LEAD_SHEETS = [
-  { name: 'Ads (V4)',      sheet: 'V4 Appt Booked' },
-  { name: 'Ads (V2)',      sheet: 'V2 Appt Booked' },
-  { name: '197CA',         sheet: '197CA Book'      },
-  { name: 'SMS',           sheet: 'SMS'             },
-  { name: 'Cold Calling',  sheet: 'Cold Calling'    },
-  { name: "Uzair CC's",    sheet: "Uzair CC's"      },
+  { name: 'Ads (V1)',      sheet: '(V1) Appt Booked'                                    },
+  { name: 'Ads (V2)',      sheet: 'V2 Appt Booked'                                      },
+  { name: 'Ads (V4.0)',    sheet: 'V4 Appt Booked',  maxDate: new Date(2026, 2, 26)     },
+  { name: 'Ads (V4.1)',    sheet: 'V4 Appt Booked',  minDate: new Date(2026, 2, 27)     },
+  { name: '197CA',         sheet: '197CA Book'                                           },
+  { name: 'SMS',           sheet: 'SMS'                                                  },
+  { name: 'Cold Calling',  sheet: 'Cold Calling'                                         },
+  { name: "Uzair CC's",    sheet: "Uzair CC's"                                           },
 ];
 
 function normalizeToMonthly(amount, interval, intervalCount) {
@@ -237,7 +239,7 @@ app.get('/api/leads', async (req, res) => {
     const from = req.query.from ? new Date(req.query.from + 'T00:00:00') : null;
     const to   = req.query.to   ? new Date(req.query.to   + 'T23:59:59') : null;
 
-    const results = await Promise.all(LEAD_SHEETS.map(async ({ name, sheet }) => {
+    const results = await Promise.all(LEAD_SHEETS.map(async ({ name, sheet, minDate, maxDate }) => {
       try {
         const rows = await fetchSheetCSV(sheet);
         let leads = 0, shows = 0, closes = 0;
@@ -248,8 +250,10 @@ app.get('/api/leads', async (req, res) => {
           if (!dateStr || !nameStr) continue;
           const date = parseSheetDate(dateStr);
           if (!date) continue;
-          if (from && date < from) continue;
-          if (to   && date > to)   continue;
+          if (from    && date < from)    continue;
+          if (to      && date > to)      continue;
+          if (minDate && date < minDate) continue;
+          if (maxDate && date > maxDate) continue;
           const showed = (row[5] || '').trim().toUpperCase();
           const closed = (row[6] || '').trim().toUpperCase();
           if (showed !== 'Y' && showed !== 'N' && showed !== '') continue;
